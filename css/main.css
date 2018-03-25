@@ -1,0 +1,65 @@
+* {
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: #76b852; /* fallback for old browsers */
+  height: 5000px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Style the top navigation bar */
+.topnav {
+    overflow: hidden;
+    position: sticky;
+    padding-left: 20px;
+    margin: 0;
+    top: 0;
+    width: 100%;
+    background-color: #333;
+}
+
+.topnav ul {
+    list-style-type: none;
+    margin: 0;
+}
+
+/* Style the topnav links */
+.topnav a {
+    float: left;
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+/* Change color on hover */
+.topnav a:hover:not(.active) {
+    background-color: #111;
+}
+
+/* Style the content */
+.content {
+    display: block;
+    padding: 20px;
+    background-color: #ddd;
+    text-align: center;
+    width: 80%;
+    min-height: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+/* Style the footer */
+.footer {
+    background-color: #f1f1f1;
+    padding: 10px;
+}
+
+.active {
+    background-color: #4CAF50;
+}
