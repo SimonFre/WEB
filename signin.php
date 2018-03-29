@@ -1,22 +1,20 @@
 <?php
 require_once('header.php');
+if (isset($_SESSION['error'])) {
+  echo $_SESSION['error'];
+}
 ?>
 
-<link rel="stylesheet" href="./css/signup.css" />
-  <div class="form">
+<link rel="stylesheet" href="./css/sign.css" />
 
-    <form class="login-form">
-      <input type="text" placeholder="Nom" required/>
-      <input type="text" placeholder="Prénom" required/>
-      <input type="text" placeholder="Adresse"/>
-      <input type="text" placeholder="Ville" required/>
-      <input type="text" placeholder="Email" required/>
-      <input type="text" placeholder="Téléphone"/>
-      <input type="password" placeholder="Mot de passe" required/>
-      <input type="password" placeholder="Confirmation" required/>
-      <button>S'inscrire</button>
-    </form>
-  </div>
+<div class="form">
+
+  <form class="login-form" action="./include/signin_inc.php" method="post">
+    <input type="text" name="email" placeholder="Email" required/>
+    <input type="password" name="pwd" placeholder="Mot de passe" required/>
+    <button type="submit" name="submit">Se connecter</button>
+  </form>
+</div>
 
 
 <?php
