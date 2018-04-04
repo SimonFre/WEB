@@ -9,7 +9,8 @@ if (isset($_SESSION['error'])) {
   <div class="form">
 
     <form class="login-form" action="./include/signup_inc.php" method="post">
-      <input type="text" name="nom" placeholder="Nom" required/>
+      <h2>Inscription</h2>
+      <input type="text" name="nom" placeholder="Nom" required autofocus/>
       <input type="text" name="prenom" placeholder="Prénom" required/>
       <input type="text" name="adresse" placeholder="Adresse"/>
       <input type="text" name="ville" placeholder="Ville" required/>

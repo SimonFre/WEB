@@ -7,6 +7,7 @@
     <meta charset="utf-8" />
     <title>Mise en forme</title>
     <link rel="stylesheet" href="./css/main.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 </head>
 
 <body>
@@ -20,6 +21,7 @@
       if (isset($_SESSION['email'])) {
         echo '<ul>
                 <li style="float:right"><a href="./include/logout_inc.php">Se déconnecter</a></li>;
+                <li style="float:right"><a href="./account.php">Mon compte</a></li>;
               </ul>';
       } else {
         echo '<ul>

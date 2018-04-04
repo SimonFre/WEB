@@ -3,7 +3,7 @@ session_start();
 
 if (isset($_POST['submit'])) {
 
-  include_once 'dbh.php';
+  required 'dbh.php';
 
   $nom = mysqli_real_escape_string($conn, $_POST['nom']);
   $prenom = mysqli_real_escape_string($conn, $_POST['prenom']);
@@ -16,7 +16,7 @@ if (isset($_POST['submit'])) {
 
   // Error handler
   // Check for empty fields
-  if (empty($nom) || empty($prenom) || empty($adresse) || empty($ville) ||
+  if (empty($nom) || empty($prenom) || empty($ville) ||
   empty($email) || empty($pwd1) || empty($pwd2)) {
     header("Location: ../signup.php?signup=empty");
     exit();
