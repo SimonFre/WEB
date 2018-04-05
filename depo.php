@@ -6,7 +6,7 @@ require_once('header.php');
 if (isset($_SESSION['email'])) {
   echo '<link rel="stylesheet" href="./css/depo.css" />
           <div class="form">
-            <form class="login-form" action="./include/depo_inc.php" method="post" enctype="multipart/form-data">
+            <form class="login-form" action="./include/depo_inc.php" method="POST" enctype="multipart/form-data">
               <h2>Déposer une annonce</h2>
               <div class="element_file">
               <input name="file" type="file" />  <!-- multiple="" -->

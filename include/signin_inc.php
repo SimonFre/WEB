@@ -3,7 +3,7 @@ session_start();
 unset($_SESSION['error']);
 if (isset($_POST['submit'])) {
 
-  required 'dbh.php';
+  require 'dbh.php';
 
   $email = mysqli_real_escape_string($conn, $_POST['email']);
   $pwd = mysqli_real_escape_string($conn, $_POST['pwd']);

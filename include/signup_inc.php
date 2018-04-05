@@ -3,7 +3,7 @@ session_start();
 
 if (isset($_POST['submit'])) {
 
-  required 'dbh.php';
+  require 'dbh.php';
 
   $nom = mysqli_real_escape_string($conn, $_POST['nom']);
   $prenom = mysqli_real_escape_string($conn, $_POST['prenom']);
