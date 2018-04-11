@@ -1,0 +1,39 @@
+a {
+  text-decoration: none;
+  color: black;
+  padding: 10px;
+}
+
+.container:hover {
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+.container {
+  height: 200px;
+  width: 90%;
+  padding: 0px;
+  border: 1px solid rgba(15, 65, 18, 0.28);
+  margin-left: auto;
+  margin-right: auto;*
+  text-align: center;
+}
+
+.pub_pic {
+  float: left;
+  height: 100%;
+}
+button {
+  font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  outline: 0;
+  float: right;
+  transform: translateY(-50%);
+  background: #4CAF50;
+  border: 0;
+  padding: 15px;
+  color: #FFFFFF;
+  font-size: 14px;
+  cursor: pointer;
+}
+form button:hover,form button:active,form button:focus {
+  background: #43A047;
+}
