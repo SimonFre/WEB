@@ -3,7 +3,7 @@ session_start();
 unset($_SESSION['error']);
 if (isset($_POST['submit'])) {
 
-  include 'dbh.php';
+  require 'dbh.php';
 
   $email = mysqli_real_escape_string($conn, $_POST['email']);
   $pwd = mysqli_real_escape_string($conn, $_POST['pwd']);
@@ -18,7 +18,6 @@ if (isset($_POST['submit'])) {
     $resultCheck = mysqli_num_rows($result);
     if ($resultCheck < 1) {
       header("Location: ../signin.php?login=error");
-      $_SESSION['error'] = 'Mauvais Email ou Mot de passe';
       exit();
     } else {
       if ($row = mysqli_fetch_assoc($result)) {
@@ -26,16 +25,18 @@ if (isset($_POST['submit'])) {
         $hashedpwdCheck = password_verify($pwd, $row['password']);
         if ($hashedpwdCheck == false) {
           header("Location: ../signin.php?login=error");
-          $_SESSION['error'] = 'Mauvais Email ou Mot de passe';
           exit();
         } elseif ($hashedpwdCheck == true) {
-          // Log in the user in
+          // Log in the user
+          $_SESSION['id'] = $row['id'];
           $_SESSION['prenom'] = $row['prenom'];
           $_SESSION['nom'] = $row['nom'];
           $_SESSION['adresse'] = $row['adresse'];
           $_SESSION['ville'] = $row['ville'];
+          $_SESSION['region'] = $row['region'];
           $_SESSION['email'] = $row['email'];
-          header("Location: ../index.php?login=success");
+          $_SESSION['tel'] = $row['tel'];
+          header("Location: ../index.php");
           exit();
         }
       }
@@ -43,7 +44,6 @@ if (isset($_POST['submit'])) {
   }
 } else {
   header("Location: ../signin.php?login=error");
-  $_SESSION['error'] = 'Tu as crus !';
   exit();
 }
 

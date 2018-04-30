@@ -3,12 +3,13 @@ session_start();
 
 if (isset($_POST['submit'])) {
 
-  include_once 'dbh.php';
+  require 'dbh.php';
 
   $nom = mysqli_real_escape_string($conn, $_POST['nom']);
   $prenom = mysqli_real_escape_string($conn, $_POST['prenom']);
   $adresse = mysqli_real_escape_string($conn, $_POST['adresse']);
   $ville = mysqli_real_escape_string($conn, $_POST['ville']);
+  $region = mysqli_real_escape_string($conn, $_POST['region']);
   $email = mysqli_real_escape_string($conn, $_POST['email']);
   $tel = mysqli_real_escape_string($conn, $_POST['tel']);
   $pwd1 = mysqli_real_escape_string($conn, $_POST['pwd1']);
@@ -16,7 +17,7 @@ if (isset($_POST['submit'])) {
 
   // Error handler
   // Check for empty fields
-  if (empty($nom) || empty($prenom) || empty($adresse) || empty($ville) ||
+  if (empty($nom) || empty($prenom) || empty($ville) || empty($region) ||
   empty($email) || empty($pwd1) || empty($pwd2)) {
     header("Location: ../signup.php?signup=empty");
     exit();
@@ -46,21 +47,20 @@ if (isset($_POST['submit'])) {
             header("Location: ../signup.php?signup=pwd");
             exit();
           } else {
-            // Hashing th password
+            // Hashing the password
             $hashedpwd = password_hash($pwd1, PASSWORD_DEFAULT);
             // Insert the user into the database
-            $sql = "INSERT INTO users (nom, prenom, adresse, ville, telephone,
-              email, password) VALUES ('$nom', '$prenom', '$adresse', '$ville',
+            $sql = "INSERT INTO users (nom, prenom, adresse, ville, region, telephone,
+              email, password) VALUES ('$nom', '$prenom', '$adresse', '$ville', '$region',
               '$tel', '$email', '$hashedpwd');";
             mysqli_query($conn, $sql);
-            header("Location: ../signup.php?signup=success");
+            header("Location: ../signin.php?signup=success");
             exit();
           }
         }
       }
     }
   }
-
 } else {
   header("Location: ../signup.php");
   exit();
