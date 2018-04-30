@@ -1,17 +1,19 @@
 <?php
 require_once('header.php');
 ?>
-
-
-<h2>Projet L1</h2>
-<p>Page d'acceuil du site.</p>
-
-
 <link rel="stylesheet" href="./css/account.css" />
+
+<h2>Mon compte</h2>
+<p>
+  Page de gestion du compte.
+</p>
+
 <?php
 
 require './include/dbh.php';
-$sql = "SELECT * FROM publication";
+
+$user_id = $_SESSION['id'];
+$sql = "SELECT * FROM publication WHERE user_id='$user_id'";
 $result = mysqli_query($conn, $sql);
 $resultCheck = mysqli_num_rows($result);
 if ($resultCheck >= 1) {
@@ -29,6 +31,9 @@ if ($resultCheck >= 1) {
     echo "<p class='prix' >".$row['prix']." €</p>";
     echo "<p class='despt' >".$row['despt']."</p>";
     echo "<p class='date' >".$row['date']."</p>";
+    echo "<form action='./include/delete.php?' method='get'>
+            <button type='submit' name='delete' value='".$row['id']."'>Supprimer</button>
+          </form>";
     echo "</div>";
     echo "</a>";
   }

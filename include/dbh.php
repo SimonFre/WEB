@@ -7,5 +7,4 @@ $dbname = "web";
 
 $conn = mysqli_connect($dbserver, $dbusername, $dbpassword, $dbname);
 
-
 ?>

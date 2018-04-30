@@ -3,7 +3,7 @@ session_start();
 unset($_SESSION['error']);
 if (isset($_POST['submit'])) {
 
-  include 'dbh.php';
+  require 'dbh.php';
 
   $email = mysqli_real_escape_string($conn, $_POST['email']);
   $pwd = mysqli_real_escape_string($conn, $_POST['pwd']);
@@ -30,6 +30,7 @@ if (isset($_POST['submit'])) {
           exit();
         } elseif ($hashedpwdCheck == true) {
           // Log in the user in
+          $_SESSION['id'] = $row['id'];
           $_SESSION['prenom'] = $row['prenom'];
           $_SESSION['nom'] = $row['nom'];
           $_SESSION['adresse'] = $row['adresse'];

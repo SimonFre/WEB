@@ -10,7 +10,8 @@ if (isset($_SESSION['error'])) {
 <div class="form">
 
   <form class="login-form" action="./include/signin_inc.php" method="post">
-    <input type="text" name="email" placeholder="Email" required/>
+    <h2>Connexion</h2>
+    <input type="text" name="email" placeholder="Email" required autofocus/>
     <input type="password" name="pwd" placeholder="Mot de passe" required/>
     <button type="submit" name="submit">Se connecter</button>
   </form>
