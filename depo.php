@@ -2,103 +2,137 @@
 require_once('header.php');
 ?>
 
-<link rel="stylesheet" href="./css/depo.css" />
+<link rel="stylesheet" href="./css/sign.css" />
 <?php
+require './include/list_inc.php';
 
-$Regions = ["Alsace", "Aquitaine", "Auvergne", "Basse-Normandie", "Bourgogne",
-"Bretagne", "Centre", "Champagne-Ardenne", "Corse", "Franche-Comté",
-"Haute-Normandie", "Ile-de-France", "Languedoc-Roussillon", "Limousin",
-"Lorraine", "Midi-Pyrénées", "Nord-Pas-de-Calais", "Pays de la Loire",
-"Picardie", "Poitou-Charentes", "Provence-Alpes-Côte d'Azur", "Rhône-Alpes"];
+if (isset($_SESSION['email'])) { ?>
 
-$Vehicules = ["Voitures", "Motos", "Utilitaires", "Equipement Auto",
-"Equipement Moto"];
-$Multimedia = ["Informatique","Consoles & Jeux vidéo", "Image & Son",
-"Téléphonie"];
-$Maison = ["Ameublement", "Electroménager", "Décoration", "Bricolage",
-"Jardinage", "Vêtements", "Chaussures", "Accessoires & Bagagerie",
-"Montres & Bijoux", "Equipement bébé", "Vêtements bébé"];
-$Loisirs = ["DVD / Films", "CD / Musique", "Livres", "Animaux", "Vélos",
-"Sports & Hobbies", "Instruments de musique", "Collection", "Jeux & Jouets"];
-$Materiel = ["Matériel Agricole", "Transport - Manutention",
-"BTP - Chantier Gros-oeuvre", "Outillage - Matériaux 2nd-oeuvre",
-"Équipements Industriels", "Restauration - Hôtellerie", "Fournitures de Bureau",
-"Commerces & Marchés", "Matériel Médical"];
-
-if (isset($_SESSION['email'])) {
-  echo '<div class="form">
-       <form class="login-form" action="./include/depo_inc.php" method="POST" enctype="multipart/form-data">
-          <h2>Déposer une annonce</h2>';
-  if (isset($_GET['error'])) {
-    $error = $_GET['error'];
-    if ($error == 'heavy') {
-      echo '<div class="alert alert-danger">
-              <strong>Image trop lourde.</strong>
-            </div>';
-    } if ($error == 'error') {
-      echo '<div class="alert alert-danger">
-              <strong>Une erreur est survenu.</strong>
-            </div>';
-    } if ($error == 'format') {
-      echo '<div class="alert alert-danger">
-              <strong>Fichier non supporté.</strong>
-            </div>';
-    } if ($error == 'prix') {
-      echo '<div class="alert alert-danger">
-              <strong>Prix invalide.</strong>
-            </div>';
-    }
-  }
-
-  echo '<div class="element_file">
-      <input name="file" type="file" />  <!-- multiple="" -->
+  <article>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6">
+          <h1>Déposer une annonce</h1>
+  <?php if (isset($_GET['error'])) {
+          $error = $_GET['error'];
+          if ($error == 'heavy') {
+            echo '<div class="alert alert-danger fade in">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <p>Image trop lourde.</p>
+                  </div>';
+          } if ($error == 'error') {
+            echo '<div class="alert alert-danger fade in">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <p>Une erreur est survenu.</p>
+                  </div>';
+          } if ($error == 'format') {
+            echo '<div class="alert alert-danger fade in">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <p>Format du fichier non supporté.</p>
+                  </div>';
+          } if ($error == 'prix') {
+            echo '<div class="alert alert-danger fade in">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <p>Prix invalide.</p>
+                  </div>';
+          }
+        } ?>
+        </div>
       </div>
-      <div class="title">
-        <input type="text" name="titre" placeholder="Titre de l\'annonce" required/><br />
-      </div>
-      <textarea name="subject" placeholder="Description"></textarea><br />
+      <form action="./include/depo_inc.php" method="POST" enctype="multipart/form-data">
+        <div class="row">
+          <div class="col-sm-3"></div>
+          <div class="col-sm-2">
+            <div class="input-group">
+              <input type="file" class="form-control" name="file1" />
+            </div>
+          </div>
+          <!--
+          <div class="col-sm-2">
+            <div class="input-group">
+              <span class="input-group-addon"></span>
+              <input type="file" class="form-control" name="file2" />
+            </div>
+          </div>
+          <div class="col-sm-2">
+            <div class="input-group">
+              <span class="input-group-addon"></span>
+              <input type="file" class="form-control" name="file3" />
+            </div>
+          </div>
+        -->
+          <div class="col-sm-3"></div>
+        </div>
+        <div class="row">
+          <div class="col-sm-3"></div>
+          <div class="col-sm-6">
+            <div class="input-group">
+              <span class="input-group-addon"><i class=""></i></span>
+              <input type="text" class="form-control" name="titre" placeholder="Titre de l'annonce *" required/>
+            </div>
+            <div class="input-group">
+              <span class="input-group-addon"><i class=""></i></span>
+              <textarea name="subject" class="form-control" placeholder="Description" rows="5"></textarea><br />
+            </div>
+            <div class="form-group">
+              <select class="form-control" name="categorie" required>
+                <option selected disabled> Catégorie : *</option>
+                <optgroup label="Véhicule"></option>
+    <?php       foreach($Vehicules as $vehicule) {
+                  echo '<option value="'.$vehicule.'">'.$vehicule.'</option>';
+                } ?>
+                </optgroup>
+                <optgroup label="Multimédia"></option>
+    <?php       foreach($Multimedia as $multimedia) {
+                  echo '<option value="'.$multimedia.'">'.$multimedia.'</option>';
+                } ?>
+                </optgroup>
 
-      <select  name="categorie" required>
-      <option selected="selected" disabled>Sélectionnez une catégorie : </option>
-      <option class="unselectable_cat" disabled> -- Vehicule -- </option>';
-      foreach($Vehicules as $vehicule) {
-        echo '<option value="'.$vehicule.'">'.$vehicule.'</option>';
-      }
-      echo '<option class="unselectable_cat" disabled> -- Multimédia -- </option>';
-      foreach($Multimedia as $multimedia) {
-        echo '<option value="'.$multimedia.'">'.$multimedia.'</option>';
-      }
-      echo '<option class="unselectable_cat" disabled> -- Maison -- </option>';
-      foreach($Maison as $maison) {
-        echo '<option value="'.$maison.'">'.$maison.'</option>';
-      }
-      echo '<option class="unselectable_cat" disabled> -- Loisirs -- </option>';
-      foreach($Loisirs as $loisirs) {
-        echo '<option value="'.$loisirs.'">'.$loisirs.'</option>';
-      }
-      echo '<option class="unselectable_cat" disabled> -- Matériel professionnel -- </option>';
-      foreach($Materiel as $materiel) {
-        echo '<option value="'.$materiel.'">'.$materiel.'</option>';
-      }
-      echo '</select>
+                <optgroup label="Maison"></option>
+    <?php       foreach($Maison as $maison) {
+                  echo '<option value="'.$maison.'">'.$maison.'</option>';
+                } ?>
+                </optgroup>
 
-      <select  name="region" required>
-      <option value="unselectable_region" selected="selected" disabled>Sélectionnez une région :</option>';
-      foreach($Regions as $region) {
-        echo '<option value="'.$region.'">'.$region.'</option>';
-      }
-      echo '</select>
+                <optgroup label="Loisirs"></option>
+    <?php       foreach($Loisirs as $loisirs) {
+                  echo '<option value="'.$loisirs.'">'.$loisirs.'</option>';
+                } ?>
+                </optgroup>
 
-      <div class="price">
-        <input type="number" name="prix" step="0.01" min="1" max="50000" placeholder="Prix" required />
-        <i class="fa fa-eur" aria-hidden="true"></i>
-      </div><br>
-      <button type="submit" name="publier">Publier</button>
-    </form>
-  </div>';
+                <optgroup label="Matériel professionnel"></option>
+    <?php       foreach($Materiel as $materiel) {
+                  echo '<option value="'.$materiel.'">'.$materiel.'</option>';
+                } ?>
+                </optgroup>
+              </select>
+            </div>
+            <div class="form-group">
+              <select class="form-control" name="region" required>
+                <option selected disabled>Région :</option>
+    <?php       foreach($Regions as $region) {
+                  echo '<option value="'.$region.'">'.$region.'</option>';
+                } ?>
+              </select>
+            </div>
+
+            <div class="input-group">
+              <input type="text" class="form-control" name="prix" placeholder="Prix" maxlength="8" required />
+              <span class="input-group-addon"><i class="glyphicon glyphicon-eur"></i></span>
+            </div>
+
+            <button class="btn btn-success btn-block" type="submit" name="publier">Déposer l'annonce</button>
+          </div>
+          <div class="col-sm-3"></div>
+        </div>
+      </form>
+  </article>
+
+<?php
 } else {
   echo '<div class="alert alert-danger">
-          <strong>Vous devez être connecté !</strong>
+          <p>Vous devez être connecté !</p>
         </div>';
 }
 ?>

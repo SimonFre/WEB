@@ -3,82 +3,42 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 
+/* Navbar */
+.navbar > .collapse > .nav > li > a,
+.navbar > .navbar-header > a,
+.navbar {
+  background-color: #333333;
+  border-color: #333333;
+  color : #ecf0f1;
+}
+.navbar > .collapse > .nav > li > a:hover,
+.navbar > .navbar-header > a:hover {
+  background-color: #111;
+  color: #ecf0f1;
+}
+
 body {
   margin: 0;
-  background: #76b852; /* fallback for old browsers */
+  background-color: #b9daa4;
   font-family: Arial, Helvetica, sans-serif;
 }
-
-/* Style the top navigation bar */
-.topnav {
-    overflow: hidden;
-    position: sticky;
-    padding-left: 20px;
-    z-index: 2;
-    margin: 0;
-    top: 0;
-    width: 100%;
-    background-color: #333;
-}
-.topnav ul {
-    list-style-type: none;
-    margin: 0;
-}
-/* Style the topnav links */
-.topnav a {
-    float: left;
-    display: block;
-    color: #f2f2f2;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-}
-
-/* Change color on hover */
-.topnav a:hover:not(.active) {
-    background-color: #111;
-}
-
 /* Style the content */
-.content {
-    padding: 20px;
-    background-color: #ffffff;
-    text-align: center;
-    width: 95%;
-    min-height: 100vh;
-    margin: auto;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+.container-fluid {
+  padding: 20px;
+  background-color: #ecf0f1;
+  text-align: center;
+  width: 95%;
+  margin: auto;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
-.container {
-  margin: 10px;
-}
-.alert {
-  position: relative;
-  padding: 0.75rem 1.25rem;
-  max-width: 20rem;
-  margin: 1rem;
-  margin-left: auto;
-  margin-right: auto;
-  border: 1px solid transparent;
-  border-radius: 0.25rem;
-}
-.alert-success {
-  color: #155724;
-  background-color: #d4edda;
-  border-color: #c3e6cb;
-}
-.alert-danger {
-  color: #721c24;
-  background-color: #f8d7da;
-  border-color: #f5c6cb;
+
+article > .container .input-group {
+  padding-bottom: 10px;
+  min-width: 100%;
 }
 
 /* Style the footer */
 .footer {
-    background-color: #f1f1f1;
-    padding: 10px;
-}
-
-.active {
-    background-color: #4CAF50;
+  background-color: #f1f1f1;
+  padding: 10px;
 }

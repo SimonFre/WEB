@@ -2,13 +2,13 @@
 session_start();
 
 if (isset($_POST['publier'])) {
-  if (isset($_FILES['file']) && !empty($_FILES['file']['name'])) {
-    $file = $_FILES['file'];
-    $fileName = $_FILES['file']['name'];
-    $fileTmpName = $_FILES['file']['tmp_name'];
-    $fileSize = $_FILES['file']['size'];
-    $fileError = $_FILES['file']['error'];
-    $fileType = $_FILES['file']['type'];
+  if (isset($_FILES['file1']) && !empty($_FILES['file1']['name'])) {
+    $file1 = $_FILES['file1'];
+    $fileName = $_FILES['file1']['name'];
+    $fileTmpName = $_FILES['file1']['tmp_name'];
+    $fileSize = $_FILES['file1']['size'];
+    $fileError = $_FILES['file1']['error'];
+    $fileType = $_FILES['file1']['type'];
 
     $fileExt = explode('.', $fileName);
     $fileActualExt = strtolower(end($fileExt));
@@ -37,7 +37,7 @@ if (isset($_POST['publier'])) {
 	    exit();
     }
   } else {
-  $fileNameNew = 'NULL';
+    $fileNameNew = 'NULL';
   }
 
   require './dbh.php';
@@ -62,8 +62,11 @@ if (isset($_POST['publier'])) {
       VALUES ('$user_id', '$title', '$despt', '$categorie', '$region', '$prix', '$date');";
     }
     mysqli_query($conn, $sql);
-    header("Location: ../account.php?tab=mes_annonces");
+    header("Location: ../account.php");
     exit();
   }
+} else {
+  header("Location: ../depo.php");
+  exit();
 }
 ?>

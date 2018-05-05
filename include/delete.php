@@ -8,13 +8,18 @@ $id = $_GET['delete'];
 $sql = "SELECT * FROM publication WHERE id='$id'";
 $result = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($result);
-$img = $row['file1'];
-echo $img;
-unlink("../data/".$row['file1'].""); // Supprimer le fichier local de l'image
 
-$sql = "DELETE FROM publication WHERE id='$id'"; // Supprimer la ligne dans la table
-$result = mysqli_query($conn, $sql);
+// Si l'id de l'annonceur == l'id de la session
+if ($row['user_id'] == $_SESSION['id']) {
+  unlink("../data/".$row['file1'].""); // Supprimer le fichier local de l'image
 
-header("Location: ../account.php?tab=mes_annonces");
+  $sql = "DELETE FROM publication WHERE id='$id'"; // Supprimer la ligne dans la table
+  $result = mysqli_query($conn, $sql);
+
+  header("Location: ../account.php");
+  exit();
+}
+// Sinon
+header("Location: ../index.php");
 exit();
 ?>

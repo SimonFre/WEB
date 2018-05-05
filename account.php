@@ -1,194 +1,242 @@
 <?php
 require_once('header.php');
 ?>
-<link rel="stylesheet" href="./css/account.css" />
-
-<div class="tab">
-
-<a href="account.php?tab=mes_annonces">Mes annonces</a>
-<a href="account.php?tab=mon_compte">Mon compte</a>
-</div>
-
 <?php
 require './include/dbh.php';
-
-$Regions = ["Alsace", "Aquitaine", "Auvergne", "Basse-Normandie", "Bourgogne",
-"Bretagne", "Centre", "Champagne-Ardenne", "Corse", "Franche-Comté",
-"Haute-Normandie", "Ile-de-France", "Languedoc-Roussillon", "Limousin",
-"Lorraine", "Midi-Pyrénées", "Nord-Pas-de-Calais", "Pays de la Loire",
-"Picardie", "Poitou-Charentes", "Provence-Alpes-Côte d'Azur", "Rhône-Alpes"];
+require './include/list_inc.php';
 
 $user_id = $_SESSION['id'];
-if (isset($_GET['tab'])) {
-  $tab = $_GET['tab'];
-} else {
-  $tab = 'mes_annonces';
-}
+?>
 
-if ( $tab == 'mes_annonces') {
+<link rel="stylesheet" href="./css/account.css" />
+
+<article>
+  <div class="container">
+    <ul class="nav nav-tabs">
+<?php
+// Si tab existe et qu'il est différent du vide
+if (isset($_GET['tab']) && !empty($_GET['tab'])) {
+  $tab = $_GET['tab'];
+  // Si tab == account -> "mon compte" = active
+  if ($tab == "account") { ?>
+      <li><a data-toggle="tab" href="#annonce">Mes annonces</a></li>
+      <li class="active"><a data-toggle="tab" href="#account">Mon compte</a></li>
+    </ul>
+    <?php
+  // Sinon tab != account donc "mes annonces" = active
+  } else { ?>
+      <li class="active"><a data-toggle="tab" href="#annonce">Mes annonces</a></li>
+      <li><a data-toggle="tab" href="#account">Mon compte</a></li>
+    </ul>
+<?php
+  }
+// Sinon tab n'est pas défini donc "mes annonces" = active
+} else { ?>
+      <li class="active"><a data-toggle="tab" href="#annonce">Mes annonces</a></li>
+      <li><a data-toggle="tab" href="#account">Mon compte</a></li>
+    </ul>
+<?php
+} ?>
+
+    <div class="tab-content">
+<?php
+    // Si tab == "account" alors annonce n'est pas active
+    if (isset($tab) && $tab == "account") {
+      echo '<div id="annonce" class="tab-pane fade">';
+    } else {
+      echo '<div id="annonce" class="tab-pane fade in active">';
+    } ?>
+
+    <!-- inserez ici Annonce-->
+<?php
   $sql = "SELECT * FROM publication WHERE user_id='$user_id'";
   $result = mysqli_query($conn, $sql);
   $resultCheck = mysqli_num_rows($result);
-  if ($resultCheck >= 1) {
-    while($row = mysqli_fetch_assoc($result)) {
-      echo "<div class='container'>";
-      echo "<a href='annonce.php?annonce=".$row['id']."'>";
+  if ($resultCheck >= 1) { ?>
+    <div class="row">
+<?php
+    while($row = mysqli_fetch_assoc($result)) { ?>
+        <div class="col-xs-12 col-sm-6 col-md-4">
+          <div class="thumbnail" style="height:280px; width: 100%; overflow:hidden; text-overflow:ellipsis;">
+<?php  echo '<a href="./edit.php?edit='.$row['id'].'">'; ?>
+              <span class="glyphicon glyphicon-edit" style="float: left; font-size: 18px;"></span>
+            </a>
+<?php  echo '<a href="./include/delete.php?delete='.$row['id'].'">'; ?>
+              <span class="glyphicon glyphicon-remove" style="color:red; float:right; font-size: 18px;"></span>
+            </a>
 
-      if (!is_null($row["file1"])) {
-        echo "<img class='pub_pic' alt='' src='./data/".$row["file1"]."'/><br />";
+<?php echo '<a href="./annonce?annonce='.$row['id'].'">'; ?>
+      <?php if (!empty($row["file1"])) {
+        echo '<img src="./data/'.$row["file1"].'" alt="" style="height:150px">';
+            } else { ?>
+              <img src="./data/no_image.jpg" alt="" style="height:150px">
+      <?php } ?>
+
+            <div class="caption">
+  <?php echo "<h4>".$row['title']."</h4>";
+        echo "<p>".$row['despt']."</p>"; ?>
+            </div>
+          </a>
+        </div>
+      </div>
+<?php
+    } ?>
+    </div>
+<?php
+  } ?>
+
+  </div>
+<?php // Si tab == "account" alors account est active
+      if (isset($tab) && $tab == "account") {
+        echo '<div id="account" class="tab-pane fade in active">';
       } else {
-        echo "<img class='pub_pic' alt='' src='./data/no_image.jpg'/><br />";
-      }
+        echo '<div id="account" class="tab-pane fade">';
+      } ?>
+        <!-- inserez ici Settings-->
+<?php   if (isset($_GET['error']) && !empty($_GET['error'])) {
+          $error = $_GET['error'];
+          if ($error == 'empty') {
+            echo '<div class="alert alert-danger fade in">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <strong>Certains champs n\'ont pas été remplis.</strong>
+                  </div>';
+          } if ($error == 'invalid') {
+            echo '<div class="alert alert-danger fade in">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <strong>Certains caractères ne sont pas autorisés.</strong>
+                  </div>';
+          } if ($error == 'wrongemail') {
+            echo '<div class="alert alert-danger fade in">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <strong>Email invalide.</strong>
+                  </div>';
+          } if ($error == 'bad_pass') {
+            echo '<div class="alert alert-danger fade in">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <strong>L\'ancien mot de passe ne correspond pas.</strong>
+                  </div>';
+          } if ($error == 'bad_conf') {
+            echo '<div class="alert alert-danger fade in">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <strong>Les nouveaux mot de passe ne correspondent pas.</strong>
+                  </div>';
+          } if ($error == 'success') {
+            echo '<div class="alert alert-success fade in">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <strong>Vos modifications ont été appliquées.</strong>
+                  </div>';
+          }
+        }
+        if (!isset($_POST['modif'])) { ?>
+          <form action="account.php?tab=account" method="post">
+            <div class="form-group">
+              <label for="prenom">Votre prénom</label>
+  <?php echo '<input class="form-control" type="text" placeholder="'.$_SESSION['prenom'].'" disabled>'; ?>
+            </div>
+            <div class="form-group">
+              <label for="name">Votre nom</label>
+  <?php echo '<input class="form-control" type="text" placeholder="'.$_SESSION['nom'].'" disabled>'; ?>
+            </div>
+            <div class="form-group">
+              <label for="adresse">Votre adresse</label>
+  <?php echo '<input class="form-control" type="text" placeholder="'.$_SESSION['adresse'].'" disabled>'; ?>
+            </div>
+            <div class="form-group">
+              <label for="ville">Votre ville</label>
+  <?php echo '<input class="form-control" type="text" placeholder="'.$_SESSION['ville'].'" disabled>'; ?>
+            </div>
+            <div class="form-group">
+              <label for="region">Votre region</label>
+  <?php echo '<input class="form-control" type="text" placeholder="'.$_SESSION['region'].'" disabled>'; ?>
+            </div>
+            <div class="form-group">
+              <label for="email">Votre email</label>
+  <?php echo '<input class="form-control" type="text" placeholder="'.$_SESSION['email'].'" disabled>'; ?>
+            </div>
+            <div class="form-group">
+              <label for="tel">Votre téléphone</label>
+  <?php echo '<input class="form-control" type="text" placeholder="'.$_SESSION['tel'].'" disabled>'; ?>
+            </div>
+            <div class="form-group">
+              <label for="mdp">Votre mot de passe</label>
+              <input class="form-control" type="text" placeholder="********" disabled>
+            </div>
+            <div class="col-sm-4"></div>
+            <div class="col-sm-4 col-xs-6"></div>
+            <div class="col-sm-4 col-xs-6">
+              <button class="btn btn-success btn-block" type="submit" name="modif">Modifier</button>
+            </div>
+          </form>
+<?php   }
+        elseif (isset($_POST['modif'])) { ?>
+          <form action="./include/account_inc.php" method="post">
+            <div class="form-group">
+              <label for="prenom">Votre prénom</label>
+  <?php echo '<input class="form-control" type="text" name="prenom" value="'.$_SESSION['prenom'].'" required>'; ?>
+            </div>
+            <div class="form-group">
+              <label for="nom">Votre nom</label>
+  <?php echo '<input class="form-control" type="text" name="nom" value="'.$_SESSION['nom'].'" required>'; ?>
+            </div>
+            <div class="form-group">
+              <label for="adresse">Votre adresse</label>
+  <?php echo '<input class="form-control" type="text" name="adresse" value="'.$_SESSION['adresse'].'">'; ?>
+            </div>
+            <div class="form-group">
+              <label for="ville">Votre ville</label>
+  <?php echo '<input class="form-control" type="text" name="ville" value="'.$_SESSION['ville'].'" required>'; ?>
+            </div>
+            <div class="form-group">
+              <label for="region">Votre region</label>
+              <select class="form-control" name="region" required>
+  <?php         foreach($Regions as $region) {
+                  if ($region == $_SESSION['region']) {
+                    echo '<option value="'.$region.'" selected>'.$region.'</option>';
+                  } else {
+                    echo '<option value="'.$region.'">'.$region.'</option>';
+                  }
+                } ?>
+              </select>
+            </div>
 
-      echo "<h3 class='item1' >".$row['title']."</h3>";
-      echo "<p class='prix' >".$row['prix']." €</p>";
-      echo "<p class='despt' >".$row['despt']."</p>";
-      echo "<p class='date' >".$row['date']."</p>";
-      echo "</a>";
-      echo "<form action='./include/delete.php' method='get'>
-      <button type='submit' name='delete' value='".$row['id']."'>Supprimer</button>
-      </form>";
-      echo "</div>";
-    }
-  }
-}
+            <div class="form-group">
+              <label for="email">Votre email</label>
+  <?php echo '<input class="form-control" type="text" name="email" value="'.$_SESSION['email'].'" required>'; ?>
+            </div>
+            <div class="form-group">
+              <label for="tel">Votre téléphone</label>
+  <?php echo '<input class="form-control" type="text" name="tel" value="'.$_SESSION['tel'].'">'; ?>
+            </div>
 
-if ( $tab == 'mon_compte') {
-  if (isset($_GET['error'])) {
-    $error = $_GET['error'];
-    if ($error == 'empty') {
-      echo '<div class="alert alert-danger">
-              <strong>Certains champs n\'ont pas été remplis.</strong>
-            </div>';
-    } if ($error == 'invalid') {
-      echo '<div class="alert alert-danger">
-              <strong>Certains caractères ne sont pas autorisés.</strong>
-            </div>';
-    } if ($error == 'wrongemail') {
-      echo '<div class="alert alert-danger">
-              <strong>Email invalide.</strong>
-            </div>';
-    } if ($error == 'bad_pass') {
-      echo '<div class="alert alert-danger">
-              <strong>L\'ancien mot de passe ne correspond pas.</strong>
-            </div>';
-    } if ($error == 'bad_conf') {
-      echo '<div class="alert alert-danger">
-              <strong>Les nouveaux mot de passe ne correspondent pas.</strong>
-            </div>';
-    } if ($error == 'success') {
-      echo '<div class="alert alert-success">
-              <strong>Vos modifications ont été appliquées.</strong>
-            </div>';
-    }
-  }
-  if (!isset($_POST['modif'])) {
-    echo '<form class="form" action="./account.php?tab=mon_compte" method="post">';
+            <!-- Changer de mot de passe -->
+            <div class="form-group">
+              <label for="mdp">Votre mot de passe actuel</label>
+              <input class="form-control" type="password" name="old_pass" placeholder="********">
+            </div>
+            <div class="form-group">
+              <label for="mdp">Votre nouveau mot de passe</label>
+              <input class="form-control" type="password" name="new_pass" placeholder="********">
+            </div>
+            <div class="form-group">
+              <label for="mdp">Confirmer le mot de passe</label>
+              <input class="form-control" type="password" name="conf_pass" placeholder="********">
+            </div>
 
-    echo "<div class='entree'>";
-    echo "<p class='text'> Votre prénom : </p>";
-    echo "<p class='session'>".$_SESSION['prenom']."</p>";
-    echo "</div>";
+            <div class="col-sm-4 "></div>
+            <div class="col-sm-4 col-xs-6">
+              <button class="btn btn-danger btn-block" type="reset" name="reset">Annuler</button> <!-- passer en submit ?? -->
+            </div>
+            <div class="col-sm-4 col-xs-6">
+              <button class="btn btn-success btn-block" type="submit" name="enreg">Enregistrer</button>
+            </div>
 
-    echo "<div class='entree'>";
-    echo "<p class='text'> Votre nom : </p>";
-    echo "<p class='session'>".$_SESSION['nom']."</p>";
-    echo "</div>";
+          </form>
+<?php   } ?>
+      </div>
+    </div>
+  </div>
+</article>
 
-    echo "<div class='entree'>";
-    echo "<p class='text'> Votre adresse : </p>";
-    echo "<p class='session'>".$_SESSION['adresse']."</p>";
-    echo "</div>";
-
-    echo "<div class='entree'>";
-    echo "<p class='text'> Votre ville : </p>";
-    echo "<p class='session'>".$_SESSION['ville']."</p>";
-    echo "</div>";
-
-    echo "<div class='entree'>";
-    echo "<p class='text'> Votre region : </p>";
-    echo "<p class='session'>".$_SESSION['region']."</p>";
-    echo "</div>";
-
-    echo "<div class='entree'>";
-    echo "<p class='text'> Votre email : </p>";
-    echo "<p class='session'>".$_SESSION['email']."</p>";
-    echo "</div>";
-
-    echo "<div class='entree'>";
-    echo "<p class='text'> Votre téléphone : </p>";
-    echo "<p class='session'>".$_SESSION['tel']."</p>";
-    echo "</div>";
-
-    echo "<div class='entree'>";
-    echo "<p class='text'> Votre mot de passe : </p>";
-    echo "<p class='session'> <strong>********</strong> </p>";
-    echo "</div>";
-
-    echo '<button type="submit" name="modif">Modifier</button>';
-  }
-  if (isset($_POST['modif'])) {
-    echo '<form class="form" action="./include/account_inc.php" method="post">';
-    echo "<div class='entree'>";
-    echo "<p class='text'> Votre prénom : </p>";
-    echo '<input type="text" name="prenom" value="'.$_SESSION['prenom'].'" required autofocus/>';
-    echo "</div>";
-
-    echo "<div class='entree'>";
-    echo "<p class='text'> Votre nom : </p>";
-    echo '<input type="text" name="nom" value="'.$_SESSION['nom'].'" required />';
-    echo "</div>";
-
-    echo "<div class='entree'>";
-    echo "<p class='text'> Votre adresse : </p>";
-    echo '<input type="text" name="adresse" value="'.$_SESSION['adresse'].'" />';
-    echo "</div>";
-
-    echo "<div class='entree'>";
-    echo "<p class='text'> Votre ville : </p>";
-    echo '<input type="text" name="ville" value="'.$_SESSION['ville'].'" required />';
-    echo "</div>";
-
-    echo "<div class='entree'>";
-    echo "<p class='text'> Votre région : </p>";
-    echo '<select  name="region" required>';
-            foreach($Regions as $region) {
-              echo '<option value="'.$region.'">'.$region.'</option>';
-            }
-    echo '</select>';
-    echo "</div>";
-
-    echo "<div class='entree'>";
-    echo "<p class='text'> Votre email : </p>";
-    echo '<input type="text" name="email" value="'.$_SESSION['email'].'" required />';
-    echo "</div>";
-
-    echo "<div class='entree'>";
-    echo "<p class='text'> Votre téléphone : </p>";
-    echo '<input type="text" name="tel" value="'.$_SESSION['tel'].'"/>';
-    echo "</div>";
-
-    echo "<div class='entree'>";
-    echo "<p class='text'> Votre mot de passe actuel : </p>";
-    echo '<input type="password" name="old_pass" value=""/>';
-    echo "</div>";
-
-    echo "<div class='entree'>";
-    echo "<p class='text'> Votre nouveau mot de passe : </p>";
-    echo '<input type="password" name="new_pass" value=""/>';
-    echo "</div>";
-
-    echo "<div class='entree'>";
-    echo "<p class='text'> Confirmation : </p>";
-    echo '<input type="password" name="conf_pass" value=""/>';
-    echo "</div>";
-
-    echo '<button type="submit" name="enreg">Enregistrer</button>';
-    echo '<button type="reset" name="annul">Annuler</button>';
-  }
-  echo '</form>';
-}
-?>
 
 <?php
 require_once('footer.php');

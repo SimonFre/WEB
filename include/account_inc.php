@@ -20,7 +20,7 @@ if (isset($_POST['enreg'])) {
 
   if (empty($nom) || empty($prenom) || empty($ville) || empty($region) ||
     empty($email)) {
-    header("Location: ../account.php?tab=mon_compte&error=empty");
+    header("Location: ../account.php?tab=account&error=empty");
     exit();
   } else {
     // region == Okay
@@ -35,7 +35,7 @@ if (isset($_POST['enreg'])) {
         !empty($adresse) && !preg_match("/^[a-zA-Z0-9 -]+$/ui", $adresse) ||
         !preg_match("/^[a-zA-Z -]*$/", $ville ) ||
         !empty($tel) && !preg_match("/^\d{8}/ui", $tel)) {
-      header("Location: ../account.php?tab=mon_compte&error=invalid");
+      header("Location: ../account.php?tab=account&error=invalid");
       exit();
     } else {
       // Nom, prenom, adresse, ville, telephone == Okay
@@ -50,7 +50,7 @@ if (isset($_POST['enreg'])) {
       $_SESSION['tel'] = $tel;
       // Check if email is valid
       if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        header("Location: ../account.php?tab=mon_compte&error=wrongemail");
+        header("Location: ../account.php?tab=account&error=wrongemail");
         exit();
       } else {
         // Check if email already exist in database
@@ -58,7 +58,7 @@ if (isset($_POST['enreg'])) {
         $result = mysqli_query($conn, $sql);
         $resultCheck = mysqli_num_rows($result);
         if ($email != $_SESSION['email'] && $resultCheck > 0 ) {
-          header("Location: ../account.php?tab=mon_compte&error=wrongemail");
+          header("Location: ../account.php?tab=account&error=wrongemail");
           exit();
         } else {
           // Email == Okay
@@ -81,14 +81,14 @@ if (isset($_POST['enreg'])) {
       $hashedpwdCheck = password_verify($old_pass, $row['password']);
       if ($hashedpwdCheck == false) {
         // Si l'ancien n'est pas le bon
-        header("Location: ../account.php?tab=mon_compte&error=bad_pass");
+        header("Location: ../account.php?tab=account&error=bad_pass");
         exit();
       } elseif ($hashedpwdCheck == true) {
         // Si c'est le bon
         // Est-ce que les nouveaux mot de passe correspondent ?
         if ($new_pass != $conf_pass) {
           // Si correspondent pas
-          header("Location: ../account.php?tab=mon_compte&error=bad_conf");
+          header("Location: ../account.php?tab=account&error=bad_conf");
           exit();
         } elseif ($new_pass == $conf_pass) {
           // Si correspondent
@@ -97,21 +97,21 @@ if (isset($_POST['enreg'])) {
           $sql = "UPDATE users SET password = '$hashedpwd' WHERE id = '$id'";
           mysqli_query($conn, $sql);
           // Réussite
-          header("Location: ../account.php?tab=mon_compte&error=success");
+          header("Location: ../account.php?tab=account&error=success");
           exit();
         }
       }
     }
     // Si il y à un champs pass non vide
   } elseif (!empty($old_pass) || !empty($new_pass) || !empty($conf_pass)) {
-    header("Location: ../account.php?tab=mon_compte&error=empty");
+    header("Location: ../account.php?tab=account&error=empty");
     exit();
-  } else {
-    header("Location: ../account.php?tab=mon_compte");
+  } elseif (empty($old_pass) || empty($new_pass) || empty($conf_pass)) {
+    header("Location: ../account.php?tab=account&error=success");
     exit();
   }
 } else {
-  header("Location: ../account.php?tab=mon_compte");
+  header("Location: ../account.php?tab=account");
   exit();
 }
 ?>

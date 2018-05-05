@@ -1,67 +1,13 @@
-.form {
-  position: relative;
+.btn-default, .btn-default:focus, .btn-default:active {
+  color: #000000;
   background-color: #ffffff;
-  max-width: 60%;
-  top: 50%;
-  /*transform: translateY(-50%);*/
-  margin-left: auto;
-  margin-right: auto;
-  padding: 45px;
-  padding-top: 10px;
-  padding-bottom: 30px;
-  text-align: center;
-  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+  border-color: #797979;
 }
-.form input, .form textarea, .form select {
-  font-family: "Roboto", sans-serif;
-  width: 100%;
-  left: 0;
-  outline: 0;
-  background: #f2f2f2;
-  border: 0;
-  margin: 0 0 15px;
-  padding: 15px;
-  font-size: 14px;
+.btn-default:hover {
+  color: #000000;
+  background-color: #d5d1d1;
 }
-.unselectable_cat {
-  background: #e6e6e6;
-}
-.form .price {
-  width: 16%;
-  left: 0;
-  white-space: nowrap;
-}
-.form .title {
-  width: 50%;
-  left: 0;
-}
-.form .element_file {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
-.form textarea {
-  width: 100%;
-  min-width: 100%;
-  max-width: 100%;
-  min-height: 200px;
-}
-.form button {
-  font-family: "Roboto", sans-serif;
-  text-transform: uppercase;
-  outline: 0;
-  background: #4CAF50;
-  min-width: 20%;
-  border: 0;
-  bottom: 0;
-  padding: 15px;
-  color: #FFFFFF;
-  font-size: 14px;
-  cursor: pointer;
-}
-.form button:hover,.form button:active,.form button:focus {
-  background: #43A047;
-}
-.form .register-form {
-  display: none;
+.dropdown-toggle.bs-placeholder:focus {
+  color: #000000;
+  background-color: #ffffff;
 }
