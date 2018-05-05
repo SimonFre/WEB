@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `publication` (
   `despt` text,
   `categorie` varchar(255) NOT NULL,
   `region` varchar(255) NOT NULL,
-  `prix` varchar(10) NOT NULL,
+  `prix` int(11) NOT NULL,
   `date` varchar(10) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=55 DEFAULT CHARSET=latin1;
