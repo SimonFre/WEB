@@ -1,8 +1,6 @@
+<!-- Page de connexion au site -->
 <?php
 require_once('header.php');
-if (isset($_SESSION['error'])) {
-  echo $_SESSION['error'];
-}
 ?>
 
 <link rel="stylesheet" href="./css/sign.css" />
@@ -18,7 +16,7 @@ if (isset($_SESSION['error'])) {
         if ($signup == 'success') {
           echo '<div class="alert alert-success fade in">
                   <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                  <strong>Votre compte a été crée.</strong>
+                  <p>Votre compte a été crée.</p>
                 </div>';
         }
       }
@@ -27,21 +25,24 @@ if (isset($_SESSION['error'])) {
         if ($signup == 'error') {
           echo '<div class="alert alert-danger fade in">
                   <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                  <strong>Mauvais Email ou Mot de passe</strong>
+                  <p>Mauvais Email ou Mot de passe</p>
                 </div>';
         }
       } ?>
         <form action="./include/signin_inc.php" method="post">
           <div class="input-group">
-            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-            <input type="text" class="form-control" name="email" placeholder="Email">
+            <span class="input-group-addon"><i class="fas fa-at"></i></span>
+            <input type="text" class="form-control" name="email" placeholder="Email" required>
           </div>
           <div class="input-group">
-            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-            <input type="password" class="form-control" name="pwd" placeholder="Mot de passe">
+            <span class="input-group-addon"><i class="fas fa-key"></i></span>
+            <input type="password" class="form-control" name="pwd" placeholder="Mot de passe" required>
           </div>
           <button class="btn btn-success btn-block" type="submit" name="submit">Se connecter</button>
         </form>
+        <p class="text-info" style="text-align:right; padding-top: 10px;">
+          Mot de passe oublié ?
+        </p>
       </div>
       <div class="col-sm-4"></div>
     </div>

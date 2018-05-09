@@ -1,11 +1,15 @@
+<!-- Page de gestion d'un compte utilisateur -->
 <?php
 require_once('header.php');
-?>
-<?php
+
 require './include/dbh.php';
 require './include/list_inc.php';
 
-$user_id = $_SESSION['id'];
+if (!empty($_SESSION['id'])) {
+  $user_id = $_SESSION['id'];
+} else {
+  header("Location: ./index.php");
+}
 ?>
 
 <link rel="stylesheet" href="./css/account.css" />
@@ -49,7 +53,22 @@ if (isset($_GET['tab']) && !empty($_GET['tab'])) {
 
     <!-- inserez ici Annonce-->
 <?php
-  $sql = "SELECT * FROM publication WHERE user_id='$user_id'";
+  $sql = "SELECT * FROM publication WHERE user_id='$user_id' ";
+
+  // Pagination
+  $ParPage = 6;
+  $result = mysqli_query($conn, $sql);
+  $NbPages = ceil(mysqli_num_rows($result) / $ParPage);
+
+  if (isset($_GET['page']) && !empty($_GET['page']) && $_GET['page'] > 0 && $_GET['page'] <= $NbPages) {
+    $page = intval($_GET['page']);
+  } else {
+    $page = 1;
+  }
+  $depart = ($page - 1) * $ParPage;
+
+  $sql .= "LIMIT ".$depart.",".$ParPage;
+
   $result = mysqli_query($conn, $sql);
   $resultCheck = mysqli_num_rows($result);
   if ($resultCheck >= 1) { ?>
@@ -59,14 +78,14 @@ if (isset($_GET['tab']) && !empty($_GET['tab'])) {
         <div class="col-xs-12 col-sm-6 col-md-4">
           <div class="thumbnail" style="height:280px; width: 100%; overflow:hidden; text-overflow:ellipsis;">
 <?php  echo '<a href="./edit.php?edit='.$row['id'].'">'; ?>
-              <span class="glyphicon glyphicon-edit" style="float: left; font-size: 18px;"></span>
+              <span class="far fa-edit" style="float: left; font-size: 18px;"></span>
             </a>
 <?php  echo '<a href="./include/delete.php?delete='.$row['id'].'">'; ?>
-              <span class="glyphicon glyphicon-remove" style="color:red; float:right; font-size: 18px;"></span>
+              <span class="far fa-trash-alt" style="color:red; float:right; font-size: 18px;"></span>
             </a>
 
 <?php echo '<a href="./annonce?annonce='.$row['id'].'">'; ?>
-      <?php if (!empty($row["file1"])) {
+      <?php if (!($row["file1"] == "NULL")) {
         echo '<img src="./data/'.$row["file1"].'" alt="" style="height:150px">';
             } else { ?>
               <img src="./data/no_image.jpg" alt="" style="height:150px">
@@ -74,7 +93,11 @@ if (isset($_GET['tab']) && !empty($_GET['tab'])) {
 
             <div class="caption">
   <?php echo "<h4>".$row['title']."</h4>";
-        echo "<p>".$row['despt']."</p>"; ?>
+               if (!empty($row['despt'])) {
+                echo "<p>".$row['despt']."</p>";
+              } else {
+                echo "<h5>Aucune description n'a été émise.</h5>";
+              } ?>
             </div>
           </a>
         </div>
@@ -82,10 +105,51 @@ if (isset($_GET['tab']) && !empty($_GET['tab'])) {
 <?php
     } ?>
     </div>
+    <!-- Affichage pagination -->
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+      <ul class="pagination">
+        <?php
+        if ($NbPages > 1) {
+          $min = max($page - 2, 1); // Pas de page < 1
+          $max = min($page + 2, $NbPages); // pas de page > $NbPages
+          for ($i= $min; $i <= $max; $i++) {
+            if (isset($_GET['order']) && !empty($_GET['order'])) {
+              if ($_GET['order'] == "prix") {
+                if ($page == $i) {
+                  echo "<li class='disabled'><a href='?order=prix&page=".$i."'>".$i."</a></li>";
+                } else {
+                  echo "<li><a href='?order=prix&page=".$i."'>".$i."</a></li>";
+                }
+              }
+              else {
+                if ($page == $i) {
+                  echo "<li class='disabled'><a href='?order=date&page=".$i."'>".$i."</a></li>";
+                } else {
+                  echo "<li><a href='?order=date&page=".$i."'>".$i."</a></li>";
+                }
+              }
+            }
+            else {
+              if ($page == $i) {
+                echo "<li class='disabled'><a href='?page=".$i."'>".$i."</a></li>";
+              } else {
+                echo "<li><a href='?page=".$i."'>".$i."</a></li>";
+              }
+            }
+          }
+        }
+        ?>
+      </ul>
+    </div>
+    <div class="col-md-4"></div>
 <?php
-  } ?>
+} else {
+  echo "<h5>Vous n'avez aucune annonces.</h>";
+}?>
 
   </div>
+
 <?php // Si tab == "account" alors account est active
       if (isset($tab) && $tab == "account") {
         echo '<div id="account" class="tab-pane fade in active">';
@@ -130,64 +194,65 @@ if (isset($_GET['tab']) && !empty($_GET['tab'])) {
         if (!isset($_POST['modif'])) { ?>
           <form action="account.php?tab=account" method="post">
             <div class="form-group">
-              <label for="prenom">Votre prénom</label>
+              <label>Votre prénom</label>
   <?php echo '<input class="form-control" type="text" placeholder="'.$_SESSION['prenom'].'" disabled>'; ?>
             </div>
             <div class="form-group">
-              <label for="name">Votre nom</label>
+              <label>Votre nom</label>
   <?php echo '<input class="form-control" type="text" placeholder="'.$_SESSION['nom'].'" disabled>'; ?>
             </div>
             <div class="form-group">
-              <label for="adresse">Votre adresse</label>
+              <label>Votre adresse</label>
   <?php echo '<input class="form-control" type="text" placeholder="'.$_SESSION['adresse'].'" disabled>'; ?>
             </div>
             <div class="form-group">
-              <label for="ville">Votre ville</label>
+              <label>Votre ville</label>
   <?php echo '<input class="form-control" type="text" placeholder="'.$_SESSION['ville'].'" disabled>'; ?>
             </div>
             <div class="form-group">
-              <label for="region">Votre region</label>
+              <label>Votre region</label>
   <?php echo '<input class="form-control" type="text" placeholder="'.$_SESSION['region'].'" disabled>'; ?>
             </div>
             <div class="form-group">
-              <label for="email">Votre email</label>
+              <label>Votre email</label>
   <?php echo '<input class="form-control" type="text" placeholder="'.$_SESSION['email'].'" disabled>'; ?>
             </div>
             <div class="form-group">
-              <label for="tel">Votre téléphone</label>
+              <label>Votre téléphone</label>
   <?php echo '<input class="form-control" type="text" placeholder="'.$_SESSION['tel'].'" disabled>'; ?>
             </div>
             <div class="form-group">
-              <label for="mdp">Votre mot de passe</label>
+              <label>Votre mot de passe</label>
               <input class="form-control" type="text" placeholder="********" disabled>
             </div>
-            <div class="col-sm-4"></div>
-            <div class="col-sm-4 col-xs-6"></div>
-            <div class="col-sm-4 col-xs-6">
+            <div class="col-sm-4 col-xs-4">
+              <button class="btn btn-danger btn-block" formaction="./include/delete_user.php" type="submit" name="delete">Supprimer le compte</button>
+            </div>
+            <div class="col-sm-4 col-xs-4"></div>
+            <div class="col-sm-4 col-xs-4">
               <button class="btn btn-success btn-block" type="submit" name="modif">Modifier</button>
             </div>
           </form>
-<?php   }
-        elseif (isset($_POST['modif'])) { ?>
+<?php   } elseif (isset($_POST['modif'])) { ?>
           <form action="./include/account_inc.php" method="post">
             <div class="form-group">
-              <label for="prenom">Votre prénom</label>
+              <label>Votre prénom</label>
   <?php echo '<input class="form-control" type="text" name="prenom" value="'.$_SESSION['prenom'].'" required>'; ?>
             </div>
             <div class="form-group">
-              <label for="nom">Votre nom</label>
+              <label>Votre nom</label>
   <?php echo '<input class="form-control" type="text" name="nom" value="'.$_SESSION['nom'].'" required>'; ?>
             </div>
             <div class="form-group">
-              <label for="adresse">Votre adresse</label>
+              <label>Votre adresse</label>
   <?php echo '<input class="form-control" type="text" name="adresse" value="'.$_SESSION['adresse'].'">'; ?>
             </div>
             <div class="form-group">
-              <label for="ville">Votre ville</label>
+              <label>Votre ville</label>
   <?php echo '<input class="form-control" type="text" name="ville" value="'.$_SESSION['ville'].'" required>'; ?>
             </div>
             <div class="form-group">
-              <label for="region">Votre region</label>
+              <label>Votre region</label>
               <select class="form-control" name="region" required>
   <?php         foreach($Regions as $region) {
                   if ($region == $_SESSION['region']) {
@@ -200,31 +265,31 @@ if (isset($_GET['tab']) && !empty($_GET['tab'])) {
             </div>
 
             <div class="form-group">
-              <label for="email">Votre email</label>
+              <label>Votre email</label>
   <?php echo '<input class="form-control" type="text" name="email" value="'.$_SESSION['email'].'" required>'; ?>
             </div>
             <div class="form-group">
-              <label for="tel">Votre téléphone</label>
+              <label>Votre téléphone</label>
   <?php echo '<input class="form-control" type="text" name="tel" value="'.$_SESSION['tel'].'">'; ?>
             </div>
 
             <!-- Changer de mot de passe -->
             <div class="form-group">
-              <label for="mdp">Votre mot de passe actuel</label>
+              <label>Votre mot de passe actuel</label>
               <input class="form-control" type="password" name="old_pass" placeholder="********">
             </div>
             <div class="form-group">
-              <label for="mdp">Votre nouveau mot de passe</label>
+              <label>Votre nouveau mot de passe</label>
               <input class="form-control" type="password" name="new_pass" placeholder="********">
             </div>
             <div class="form-group">
-              <label for="mdp">Confirmer le mot de passe</label>
+              <label>Confirmer le mot de passe</label>
               <input class="form-control" type="password" name="conf_pass" placeholder="********">
             </div>
 
             <div class="col-sm-4 "></div>
             <div class="col-sm-4 col-xs-6">
-              <button class="btn btn-danger btn-block" type="reset" name="reset">Annuler</button> <!-- passer en submit ?? -->
+              <button class="btn btn-warning btn-block" type="submit" name="annuler">Annuler</button> <!-- passer en submit ?? -->
             </div>
             <div class="col-sm-4 col-xs-6">
               <button class="btn btn-success btn-block" type="submit" name="enreg">Enregistrer</button>

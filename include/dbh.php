@@ -1,3 +1,4 @@
+<!-- Connexion à la base de donnée -->
 <?php
 
 $dbserver = "localhost";

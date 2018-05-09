@@ -1,3 +1,4 @@
+<!-- Page d'inscription au site -->
 <?php
 require_once('header.php');
 
@@ -40,32 +41,32 @@ require './include/list_inc.php';
 
         <form action="./include/signup_inc.php" method="post">
           <div class="input-group">
-            <span class="input-group-addon"></span>
+            <span class="input-group-addon"><i class="fas fa-user"></i></span>
             <input type="text" class="form-control" name="nom" placeholder="Nom *" required>
           </div>
           <div class="input-group">
-            <span class="input-group-addon"></span>
+            <span class="input-group-addon"><i class="fas fa-user"></i></span>
             <input type="text" class="form-control" name="prenom" placeholder="Prénom *" required>
           </div>
           <div class="input-group">
-            <span class="input-group-addon"></span>
+            <span class="input-group-addon"><i class="fas fa-road"></i></span>
             <input type="text" class="form-control" name="adresse" placeholder="Adresse">
           </div>
           <div class="input-group">
-            <span class="input-group-addon"></span>
+            <span class="input-group-addon"><i class="fas fa-building"></i></span>
             <input type="text" class="form-control" name="ville" placeholder="Ville *" required>
           </div>
 
           <div class="form-group">
 <?php echo '<select class="form-control" name="region" required>
-              <option value="unselectable_region" selected="selected" disabled>Région : *</option>';
+              <option value="" selected="selected" disabled>Région : *</option>';
               foreach($Regions as $region) {
                 echo '<option value="'.$region.'">'.$region.'</option>';
               }
       echo '</select>'; ?>
           </div>
           <div class="input-group">
-            <span class="input-group-addon"></span>
+            <span class="input-group-addon"><i class="fas fa-at"></i></span>
             <input type="text" class="form-control" name="email" placeholder="Email *" required>
           </div>
           <div class="input-group">
@@ -74,12 +75,12 @@ require './include/list_inc.php';
           </div>
 
           <div class="input-group">
-            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+            <span class="input-group-addon"><i class="fas fa-key"></i></span>
             <input type="password" class="form-control" name="pwd1" placeholder="Mot de passe *" required>
           </div>
 
           <div class="input-group">
-            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+            <span class="input-group-addon"><i class="fas fa-key"></i></span>
             <input type="password" class="form-control" name="pwd2" placeholder="Confirmation *" required>
           </div>
 

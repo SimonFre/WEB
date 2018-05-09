@@ -1,6 +1,5 @@
 <?php
 
-// Faire une liste pus récente (pas de basse/haute normandie)
 $Regions = ["Alsace", "Aquitaine", "Auvergne", "Basse-Normandie", "Bourgogne",
 "Bretagne", "Centre", "Champagne-Ardenne", "Corse", "Franche-Comté",
 "Haute-Normandie", "Ile-de-France", "Languedoc-Roussillon", "Limousin",
@@ -8,7 +7,7 @@ $Regions = ["Alsace", "Aquitaine", "Auvergne", "Basse-Normandie", "Bourgogne",
 "Picardie", "Poitou-Charentes", "Provence-Alpes-Côte d'Azur", "Rhône-Alpes"];
 
 $Vehicules = ["Voitures", "Motos", "Utilitaires", "Equipement Auto",
-"Equipement Moto"];
+"Equipement Moto", "Equipement Caravaning", "Nautisme", "Equipement Nautisme"];
 $Multimedia = ["Informatique","Consoles & Jeux vidéo", "Image & Son",
 "Téléphonie"];
 $Maison = ["Ameublement", "Electroménager", "Décoration", "Bricolage",
@@ -21,6 +20,5 @@ $Materiel = ["Matériel Agricole", "Transport - Manutention",
 "Équipements Industriels", "Restauration - Hôtellerie", "Fournitures de Bureau",
 "Commerces & Marchés", "Matériel Médical"];
 
-$prix = ["", "", "", "", "", "", "", ""];
 
 ?>

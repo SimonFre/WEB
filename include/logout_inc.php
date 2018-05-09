@@ -1,3 +1,4 @@
+<!-- Déconnexion de l'utilisateur -->
 <?php
 session_start();
 session_unset();

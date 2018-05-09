@@ -1,3 +1,4 @@
+<!-- En-tête du site -->
 <?php
   session_start();
 ?>
@@ -17,6 +18,8 @@
   			  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
   			  crossorigin="anonymous"></script>
 
+  <!-- Font Awesome 5.0.12 -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.12/css/all.css" integrity="sha384-G0fIWCsCzJIMAVNQPfjH08cyYaUtMwjJwqiRKxxE/rx96Uroj1BtIQ6MLJuheaO9" crossorigin="anonymous">
   <!-- Latest compiled and minified JavaScript -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   <!-- Ajax -->
@@ -34,7 +37,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.php">Home</a>
+      <a class="navbar-brand" href="index.php"><i class="fas fa-home"></i> Accueil</a>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
@@ -44,11 +47,11 @@
       <ul class="nav navbar-nav navbar-right">
         <?php
         if (isset($_SESSION['email'])) {
-          echo '<li><a href="./account.php"><span class="glyphicon glyphicon-user"></span> Mon compte</a></li>
-                <li><a href="./include/logout_inc.php"> Se déconnecter</a></li>';
+          echo '<li><a href="./account.php"><i class="fas fa-user"></i> Mon compte</a></li>
+                <li><a href="./include/logout_inc.php"><i class="fas fa-sign-out-alt"></i> Se déconnecter</a></li>';
         } else {
-          echo '<li><a href="signup.php"><span class="glyphicon glyphicon-user"></span> Inscription</a></li>
-                <li><a href="signin.php"><span class="glyphicon glyphicon-log-in"></span> Connexion</a></li>';
+          echo '<li><a href="signup.php"><i class="fas fa-user"></i> Inscription</a></li>
+                <li><a href="signin.php"><i class="fas fa-sign-in-alt"></i> Connexion</a></li>';
         }
         ?>
       </ul>

@@ -1,3 +1,4 @@
+<!-- Page de dépos d'annonce -->
 <?php
 require_once('header.php');
 ?>
@@ -6,7 +7,7 @@ require_once('header.php');
 <?php
 require './include/list_inc.php';
 
-if (isset($_SESSION['email'])) { ?>
+if (isset($_SESSION['id'])) { ?>
 
   <article>
     <div class="container">
@@ -48,20 +49,16 @@ if (isset($_SESSION['email'])) { ?>
               <input type="file" class="form-control" name="file1" />
             </div>
           </div>
-          <!--
           <div class="col-sm-2">
             <div class="input-group">
-              <span class="input-group-addon"></span>
               <input type="file" class="form-control" name="file2" />
             </div>
           </div>
           <div class="col-sm-2">
             <div class="input-group">
-              <span class="input-group-addon"></span>
               <input type="file" class="form-control" name="file3" />
             </div>
           </div>
-        -->
           <div class="col-sm-3"></div>
         </div>
         <div class="row">
@@ -69,7 +66,7 @@ if (isset($_SESSION['email'])) { ?>
           <div class="col-sm-6">
             <div class="input-group">
               <span class="input-group-addon"><i class=""></i></span>
-              <input type="text" class="form-control" name="titre" placeholder="Titre de l'annonce *" required/>
+              <input type="text" class="form-control" name="titre" placeholder="Titre de l'annonce" required/>
             </div>
             <div class="input-group">
               <span class="input-group-addon"><i class=""></i></span>
@@ -77,31 +74,31 @@ if (isset($_SESSION['email'])) { ?>
             </div>
             <div class="form-group">
               <select class="form-control" name="categorie" required>
-                <option selected disabled> Catégorie : *</option>
-                <optgroup label="Véhicule"></option>
+                <option selected value="" disabled> Catégorie :</option>
+                <optgroup label="Véhicule">
     <?php       foreach($Vehicules as $vehicule) {
                   echo '<option value="'.$vehicule.'">'.$vehicule.'</option>';
                 } ?>
                 </optgroup>
-                <optgroup label="Multimédia"></option>
+                <optgroup label="Multimédia">
     <?php       foreach($Multimedia as $multimedia) {
                   echo '<option value="'.$multimedia.'">'.$multimedia.'</option>';
                 } ?>
                 </optgroup>
 
-                <optgroup label="Maison"></option>
+                <optgroup label="Maison">
     <?php       foreach($Maison as $maison) {
                   echo '<option value="'.$maison.'">'.$maison.'</option>';
                 } ?>
                 </optgroup>
 
-                <optgroup label="Loisirs"></option>
+                <optgroup label="Loisirs">
     <?php       foreach($Loisirs as $loisirs) {
                   echo '<option value="'.$loisirs.'">'.$loisirs.'</option>';
                 } ?>
                 </optgroup>
 
-                <optgroup label="Matériel professionnel"></option>
+                <optgroup label="Matériel professionnel">
     <?php       foreach($Materiel as $materiel) {
                   echo '<option value="'.$materiel.'">'.$materiel.'</option>';
                 } ?>
@@ -110,7 +107,7 @@ if (isset($_SESSION['email'])) { ?>
             </div>
             <div class="form-group">
               <select class="form-control" name="region" required>
-                <option selected disabled>Région :</option>
+                <option selected value="" disabled>Région :</option>
     <?php       foreach($Regions as $region) {
                   echo '<option value="'.$region.'">'.$region.'</option>';
                 } ?>
@@ -119,7 +116,7 @@ if (isset($_SESSION['email'])) { ?>
 
             <div class="input-group">
               <input type="text" class="form-control" name="prix" placeholder="Prix" maxlength="8" required />
-              <span class="input-group-addon"><i class="glyphicon glyphicon-eur"></i></span>
+              <span class="input-group-addon"><i class="fas fa-euro-sign"></i></span>
             </div>
 
             <button class="btn btn-success btn-block" type="submit" name="publier">Déposer l'annonce</button>
@@ -127,6 +124,7 @@ if (isset($_SESSION['email'])) { ?>
           <div class="col-sm-3"></div>
         </div>
       </form>
+    </div>
   </article>
 
 <?php

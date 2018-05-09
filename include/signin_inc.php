@@ -1,8 +1,9 @@
+<!-- Connexion de l'utilisateur -->
 <?php
 session_start();
-unset($_SESSION['error']);
-if (isset($_POST['submit'])) {
+unset($_SESSION['temp_email']);
 
+if (isset($_POST['submit'])) {
   require 'dbh.php';
 
   $email = mysqli_real_escape_string($conn, $_POST['email']);
@@ -10,7 +11,6 @@ if (isset($_POST['submit'])) {
 
   if (empty($email) || empty($pwd)) {
     header("Location: ../signin.php?login=empty");
-    $_SESSION['error'] = 'Formulaire vide';
     exit();
   } else {
     $sql = "SELECT * FROM users WHERE email='$email'";
@@ -27,6 +27,7 @@ if (isset($_POST['submit'])) {
           header("Location: ../signin.php?login=error");
           exit();
         } elseif ($hashedpwdCheck == true) {
+          unset($_SESSION['temp_email']);
           // Log in the user
           $_SESSION['id'] = $row['id'];
           $_SESSION['prenom'] = $row['prenom'];

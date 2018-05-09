@@ -1,3 +1,4 @@
+<!-- Modification des informations utilisateur -->
 <?php
 session_start();
 
@@ -29,11 +30,10 @@ if (isset($_POST['enreg'])) {
 
     $_SESSION['region'] = $region;
     // Check if input character are valid
-
     if (!preg_match("/^\p{L}+[-]*$/ui", $nom) ||
         !preg_match("/^\p{L}+[-]*$/ui", $prenom) ||
         !empty($adresse) && !preg_match("/^[a-zA-Z0-9 -]+$/ui", $adresse) ||
-        !preg_match("/^[a-zA-Z -]*$/", $ville ) ||
+        !preg_match("/^\p{L}+[-]*$/ui", $ville ) ||
         !empty($tel) && !preg_match("/^\d{8}/ui", $tel)) {
       header("Location: ../account.php?tab=account&error=invalid");
       exit();

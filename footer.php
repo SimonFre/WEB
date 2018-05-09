@@ -1,15 +1,29 @@
+<!-- Pied de page du site -->
     </div>
   </div>
 
 <!--
-<div class="footer">
-  <p>Footer</p>
-</div>
--->
-</body>
+<style>
+footer {
+  bottom: 0;
+  width: 100%;
+  color: white;
+  background-color: #121212;
+  padding: 20px;
+}
+footer > p > a, footer > p > a:hover {
+  color: white;
+  text-decoration: none;
+}
+</style>
 
-<?php
-if(isset($_SESSION['error'])) {
-  unset($_SESSION['error']);
-} ?>
+<footer>
+<p>
+  <a class="fab fa-github" href="https://github.com/SimonFre"> Simon Frégard</a>
+  & Tom Lecoeur
+</p>
+</footer>
+-->
+
+</body>
 </html>
