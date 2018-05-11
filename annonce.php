@@ -112,6 +112,8 @@ if (isset($_GET['annonce']) && !empty($_GET['annonce'])) {
             <?php echo "<p>".$user_prenom." ".$user_nom."</p>";
             if (empty($user_telephone)) {
               echo '<button class="btn btn-primary" data-toggle="collapse" data-target="#numero" disabled>N° de Téléphone</button>';
+            } elseif (!empty($user_telephone)) {
+              echo '<button class="btn btn-primary" data-toggle="collapse" data-target="#numero">N° de Téléphone</button>';
             } ?>
             <button class="btn btn-warning" data-toggle="collapse" data-target="#email">Email</button>
             <div id="numero" class="collapse">
