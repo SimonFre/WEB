@@ -36,7 +36,7 @@ if (isset($_POST['submit'])) {
           $_SESSION['ville'] = $row['ville'];
           $_SESSION['region'] = $row['region'];
           $_SESSION['email'] = $row['email'];
-          $_SESSION['tel'] = $row['tel'];
+          $_SESSION['tel'] = $row['telephone'];
           header("Location: ../index.php");
           exit();
         }
